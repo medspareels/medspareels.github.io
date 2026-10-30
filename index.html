@@ -86,6 +86,17 @@ details[open] summary:after{content:"–"}
 details p{color:var(--muted);margin-top:10px}
 footer{background:var(--ink);color:rgba(250,244,238,.65);font-size:13px;padding:34px 0}
 footer p+p{margin-top:8px}
+.stops{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0}
+.stops div{background:var(--white);border:1px solid var(--line);border-radius:999px;padding:10px 18px;font-weight:600;color:var(--muted)}
+.stops s{text-decoration-color:var(--rose);text-decoration-thickness:2px}
+.hours{display:grid;gap:14px;background:var(--blush);border-radius:20px;padding:22px;align-items:center}
+.hours b{display:block;font-family:"Cormorant Garamond",serif;font-size:52px;line-height:1}
+.hours span{font-size:13px;color:var(--muted)}.hours p{color:var(--ink);font-size:16px}
+@media(min-width:700px){.hours{grid-template-columns:220px 1fr}}
+.sticky{display:none}
+@media(max-width:760px){.sticky{display:flex;gap:8px;align-items:center;position:fixed;left:0;right:0;bottom:0;z-index:50;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:rgba(250,244,238,.96);border-top:1px solid var(--line);box-shadow:0 -6px 20px rgba(44,34,32,.08);transition:transform .25s}
+.sticky .btn{flex:1;text-align:center;padding:14px 10px;font-size:16px}.sticky .alt{color:var(--ink);font-weight:600;font-size:14px;padding:10px 6px;text-decoration:none;border-bottom:1.5px solid var(--rose);white-space:nowrap}
+.sticky.hide{transform:translateY(120%)}body{padding-bottom:76px}}
 </style>
 </head>
 <body>
@@ -101,9 +112,9 @@ footer p+p{margin-top:8px}
     <h1>Never film <em>another reel</em></h1>
     <p class="lead">12 finished reels for your med spa every month, made in your brand. Voice and silent versions, captions written, ready to post. You just approve.</p>
     <a class="btn cta" href="#start">Get 3 free reels for your clinic</a>
-    <p class="note">Then $149/month. First month $79. Cancel anytime.</p>
+    <p class="note">Free samples in your inbox within 24 hours. Then $149/month, about $12 a reel. First month $79. Cancel anytime.</p>
   </div>
-  <div class="phone"><video src="media/reel1.mp4" poster="media/poster1.jpg" autoplay muted loop playsinline></video></div>
+  <div class="phone"><video src="media/hero.mp4" poster="media/hero_poster.jpg" autoplay muted loop playsinline preload="auto"></video></div>
 </div></header>
 
 <section style="padding-top:0"><div class="wrap">
@@ -114,6 +125,18 @@ footer p+p{margin-top:8px}
     <figure><video src="media/reel1.mp4" poster="media/poster1.jpg" controls muted playsinline preload="none"></video><figcaption>Myth vs fact</figcaption></figure>
     <figure><video src="media/reel2.mp4" poster="media/poster2.jpg" controls muted playsinline preload="none"></video><figcaption>What does "20 units" mean?</figcaption></figure>
     <figure><video src="media/reel3.mp4" poster="media/poster3.jpg" controls muted playsinline preload="none"></video><figcaption>Your first appointment</figcaption></figure>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <p class="eyebrow">What you stop doing</p>
+  <h2>Get your hours back</h2>
+  <div class="stops">
+    <div><s>Writing scripts</s></div><div><s>Filming</s></div><div><s>Editing</s></div><div><s>Writing captions</s></div><div><s>Planning what to post</s></div>
+  </div>
+  <div class="hours">
+    <div><b>~24 hours</b><span>a month, by our estimate</span></div>
+    <p>If scripting, filming, editing and captioning one reel takes you about 2 hours, 12 reels a month is about 24 hours. With MedSpa Reels it's a 2-minute form once, then a few minutes a month to check your reels and post them.</p>
   </div>
 </div></section>
 
@@ -132,14 +155,15 @@ footer p+p{margin-top:8px}
 
 <section><div class="wrap">
   <p class="eyebrow">How it compares</p>
-  <h2>Finished reels, without agency prices</h2>
+  <h2>Finished reels every month, without agency prices</h2>
   <div style="overflow-x:auto">
   <table class="cmp">
-    <tr><th></th><th>Template clubs</th><th>MedSpa Reels</th><th>Agencies</th></tr>
-    <tr><td>Price</td><td>$29&ndash;64/mo</td><td class="us">$149/mo</td><td>$1,500+/mo</td></tr>
-    <tr><td>You film</td><td>Yes</td><td class="us">No</td><td>Often</td></tr>
-    <tr><td>You edit</td><td>Yes</td><td class="us">No</td><td>No</td></tr>
-    <tr><td>Finished reels</td><td>No</td><td class="us">12 a month</td><td>Varies</td></tr>
+    <tr><th></th><th>Template clubs</th><th>AI video apps</th><th>MedSpa Reels</th><th>Agencies</th></tr>
+    <tr><td>Price</td><td>$29&ndash;64/mo</td><td>Plan + a price per video</td><td class="us">$149/mo, about $12 a reel</td><td>$1,500+/mo</td></tr>
+    <tr><td>You write scripts</td><td>Yes</td><td>You order each video</td><td class="us">No</td><td>No</td></tr>
+    <tr><td>You film or edit</td><td>Yes</td><td>You send photos</td><td class="us">No</td><td>Often you film</td></tr>
+    <tr><td>Arrives without asking</td><td>No</td><td>No</td><td class="us">12 every month</td><td>Varies</td></tr>
+    <tr><td>Captions + posting calendar</td><td>Some</td><td>No</td><td class="us">Yes</td><td>Yes</td></tr>
   </table>
   </div>
 </div></section>
@@ -155,8 +179,10 @@ footer p+p{margin-top:8px}
       <li>12 finished reels a month, voice and silent</li>
       <li>Your logo, colors, handle and medical director line</li>
       <li>Captions, hashtags and a posting calendar</li>
-      <li>No filming, no editing</li>
+      <li>No filming, no editing, no planning</li>
+      <li>About $12 a reel</li>
     </ul>
+    <p class="small" style="margin-bottom:12px"><b>Free samples:</b> within 24 hours. <b>Paid month 1:</b> within 2 business days of your welcome form. <b>Every month after:</b> 3 days before your next billing date.</p>
     <form class="lead" id="leadform" novalidate>
       <input name="company" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
       <input name="clinic" placeholder="Clinic name" required>
@@ -165,7 +191,7 @@ footer p+p{margin-top:8px}
       <button class="btn" type="submit">Send me 3 free reels</button>
       <p class="small" style="font-size:12.5px">We'll email you about your samples and our offer. Unsubscribe anytime. <a href="privacy.html" style="color:var(--rose)">Privacy</a> · <a href="terms.html" style="color:var(--rose)">Terms</a></p>
     </form>
-    <p class="ok" id="ok">Thanks. Check your inbox for a confirmation; your 3 reels arrive within 2 business days.</p>
+    <p class="ok" id="ok">Thanks. Check your inbox for a confirmation; your 3 reels arrive within 24 hours.</p>
     <p class="small" style="margin-top:16px">Already sure? <a id="buy" href="https://whop.com/checkout/plan_9EmYqBPJpd9gK/?promoCode=FIRSTMONTH79" style="color:var(--rose);font-weight:600">Start your first month for $79</a></p>
   </div>
 </div></section>
@@ -176,9 +202,11 @@ footer p+p{margin-top:8px}
   <details><summary>Are the reels made with AI?</summary><p>Yes. Visuals are AI-made and are labelled on screen. The voice is an AI voice. Nothing shows a fake patient, provider or result.</p></details>
   <details><summary>Are they compliant?</summary><p>We avoid promised results, fake before-and-afters, superlatives and misuse of brand names, and add disclaimers and your medical director line. Rules differ by state, so your medical director should approve each month before you post.</p></details>
   <details><summary>What do you need from me?</summary><p>Your logo, colors, Instagram handle, the treatments you offer and your medical director's name, in one short form after checkout. About 2 minutes.</p></details>
-  <details><summary>When does each month arrive?</summary><p>Before the month starts, so you can review and schedule.</p></details>
+  <details><summary>When do the reels arrive?</summary><p>Free samples: within 24 hours of asking. Your first paid month: within 2 business days of the short welcome form after checkout. Every month after: 3 days before your next billing date, so you can review and schedule.</p></details>
   <details><summary>Can I cancel?</summary><p>Yes, anytime. The free sample has no obligation.</p></details>
 </div></section>
+
+<div class="sticky" id="sticky"><a class="btn" href="#start">Get 3 free reels</a><a class="alt" id="buy2" href="https://whop.com/checkout/plan_9EmYqBPJpd9gK/?promoCode=FIRSTMONTH79">Start for $79</a></div>
 
 <footer><div class="wrap">
   <p><strong style="color:var(--cream)">MedSpa Reels</strong> · Finished social video for med spas and injectors.</p>
@@ -207,7 +235,9 @@ f.addEventListener('submit',function(e){
    .catch(function(){b.disabled=false;b.textContent='Send me 3 free reels';alert('Something went wrong. Please try again.');});
 });
 var started=false;f.addEventListener('focusin',function(){if(!started&&typeof fbq==='function'){started=true;fbq('trackCustom','FormStart');}});
-document.getElementById('buy').addEventListener('click',function(){if(typeof fbq==='function'){fbq('track','InitiateCheckout',{value:79,currency:'USD'});}});
+['buy','buy2'].forEach(function(id){document.getElementById(id).addEventListener('click',function(){if(typeof fbq==='function'){fbq('track','InitiateCheckout',{value:79,currency:'USD'});}});});
+(function(){var s=document.getElementById('sticky'),t=document.getElementById('start');if(!('IntersectionObserver' in window))return;
+ new IntersectionObserver(function(e){s.classList.toggle('hide',e[0].isIntersecting);},{threshold:0.15}).observe(t);})();
 document.querySelectorAll('.reels video').forEach(function(v){v.addEventListener('play',function(){v.muted=false;});});
 </script>
 </body>
