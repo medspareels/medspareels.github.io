@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex"><title>Welcome | MedSpa Reels</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<!-- PageView only: Whop's own Meta Pixel integration fires Purchase at checkout, so no Purchase here (no double count). -->
+<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','1828975231465361');fbq('track','PageView');</script>
+<style>:root{--cream:#faf4ee;--rose:#a8675f;--ink:#2c2220;--muted:#6f625e;--line:#ead9cf}
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:Inter,system-ui,sans-serif;color:var(--ink);background:var(--cream);line-height:1.55}
+.wrap{max-width:620px;margin:0 auto;padding:0 20px}nav .wrap{height:64px;display:flex;align-items:center}
+.logo{font-family:"Cormorant Garamond",serif;font-size:26px;font-weight:600;color:var(--ink);text-decoration:none}.logo em{color:var(--rose)}
+h1{font-family:"Cormorant Garamond",serif;font-size:44px;line-height:1.05;margin:24px 0 10px}p{color:var(--muted);margin-bottom:12px}
+.card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:26px;margin:22px 0 60px}
+form{display:grid;gap:10px}label{font-size:14px;font-weight:600}input,textarea{padding:13px 15px;border-radius:12px;border:1px solid var(--line);font:inherit;font-size:16px;background:var(--cream)}
+.btn{background:var(--ink);color:var(--cream);font-weight:600;font-size:17px;padding:15px;border-radius:999px;border:0;cursor:pointer;margin-top:6px}
+.ok{display:none;color:var(--rose);font-weight:600}footer{font-size:13px;color:var(--muted);padding-bottom:40px}footer a{color:var(--rose)}</style></head>
+<body><nav><div class="wrap"><a class="logo" href="./">MedSpa <em>Reels</em></a></div></nav>
+<main class="wrap"><h1>You're in. One last step.</h1>
+<p>Tell us about your clinic so we can make your first 12 reels. It takes about 2 minutes. Your first month arrives by email within 5 business days.</p>
+<div class="card"><form id="f" novalidate>
+<input name="company" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+<label>Email you used at checkout<input name="email" type="email" required></label>
+<label>Clinic name<input name="clinic" required></label>
+<label>Instagram handle<input name="instagram" placeholder="@yourclinic"></label>
+<label>Medical director's name, for the line on each reel<input name="director"></label>
+<label>Treatments to feature first<textarea name="treatments" rows="3" placeholder="e.g. tox, lip filler, HydraFacial"></textarea></label>
+<button class="btn" type="submit">Send my details</button>
+<p style="font-size:13px">Send your logo and any photos or clips of your space by replying to the welcome email. No patient photos or details, please.</p>
+</form><p class="ok" id="ok">Got it. Check your inbox for your welcome email; reply to it with your logo.</p></div></main>
+<footer class="wrap"><p>Questions? <a href="mailto:help@facelessvideokit.com">help@facelessvideokit.com</a> · <a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a></p></footer>
+<script>
+var f=document.getElementById('f'),q=new URLSearchParams(location.search);
+if(q.get('email'))f.email.value=q.get('email');
+f.addEventListener('submit',function(e){
+  e.preventDefault();
+  var d={};['company','email','clinic','instagram','director','treatments'].forEach(function(k){d[k]=f[k].value;});
+  if(!d.clinic.trim()||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email.trim())){alert('Please add your email and clinic name.');return;}
+  var b=f.querySelector('button');b.disabled=true;b.textContent='Sending...';
+  fetch('https://medspareels-lead.facelessvideokit.workers.dev/onboard',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)})
+   .then(function(r){return r.json();}).then(function(j){if(!j.ok)throw 0;f.style.display='none';document.getElementById('ok').style.display='block';})
+   .catch(function(){b.disabled=false;b.textContent='Send my details';alert('Something went wrong. Please try again, or email help@facelessvideokit.com.');});
+});
+</script></body></html>

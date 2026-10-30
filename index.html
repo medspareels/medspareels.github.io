@@ -166,6 +166,7 @@ footer p+p{margin-top:8px}
       <p class="small" style="font-size:12.5px">We'll email you about your samples and our offer. Unsubscribe anytime. <a href="privacy.html" style="color:var(--rose)">Privacy</a> · <a href="terms.html" style="color:var(--rose)">Terms</a></p>
     </form>
     <p class="ok" id="ok">Thanks. Check your inbox for a confirmation; your 3 reels arrive within 2 business days.</p>
+    <p class="small" style="margin-top:16px">Already sure? <a id="buy" href="https://whop.com/checkout/plan_9EmYqBPJpd9gK/?promoCode=FIRSTMONTH79" style="color:var(--rose);font-weight:600">Start your first month for $79</a></p>
   </div>
 </div></section>
 
@@ -202,6 +203,7 @@ f.addEventListener('submit',function(e){
    })
    .catch(function(){b.disabled=false;b.textContent='Send me 3 free reels';alert('Something went wrong. Please try again.');});
 });
+document.getElementById('buy').addEventListener('click',function(){if(typeof fbq==='function'){fbq('track','InitiateCheckout',{value:79,currency:'USD'});}});
 document.querySelectorAll('.reels video').forEach(function(v){v.addEventListener('play',function(){v.muted=false;});});
 </script>
 </body>
