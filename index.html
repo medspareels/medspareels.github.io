@@ -206,6 +206,7 @@ f.addEventListener('submit',function(e){
    })
    .catch(function(){b.disabled=false;b.textContent='Send me 3 free reels';alert('Something went wrong. Please try again.');});
 });
+var started=false;f.addEventListener('focusin',function(){if(!started&&typeof fbq==='function'){started=true;fbq('trackCustom','FormStart');}});
 document.getElementById('buy').addEventListener('click',function(){if(typeof fbq==='function'){fbq('track','InitiateCheckout',{value:79,currency:'USD'});}});
 document.querySelectorAll('.reels video').forEach(function(v){v.addEventListener('play',function(){v.muted=false;});});
 </script>
