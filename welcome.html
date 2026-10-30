@@ -53,7 +53,7 @@ footer{font-size:13px;color:var(--muted);padding:0 0 36px}footer a{color:var(--r
 
   <ol class="steps">
     <li class="now"><b>1</b><div><strong>Tell us about your clinic</strong><span>The form below. About 2 minutes.</span></div></li>
-    <li><b>2</b><div><strong>Send your logo</strong><span>Reply to the welcome email with your logo and any photos or clips of your space.</span></div></li>
+    <li><b>2</b><div><strong>Add your logo</strong><span>Upload it in the form below. It goes on the end of every reel.</span></div></li>
     <li><b>3</b><div><strong>Get your first 12 reels</strong><span>By email within 5 business days: voice and silent versions, captions, hashtags and a posting calendar.</span></div></li>
     <li><b>4</b><div><strong>Review and post</strong><span>Your medical director approves them. Reply with any change and we make it.</span></div></li>
   </ol>
@@ -70,11 +70,12 @@ footer{font-size:13px;color:var(--muted);padding:0 0 36px}footer a{color:var(--r
         </div>
         <div class="row">
           <div class="field"><label for="instagram">Instagram handle</label><input id="instagram" name="instagram" placeholder="@yourclinic"></div>
-          <div class="field"><label for="director">Medical director <small>(shown on each reel)</small></label><input id="director" name="director" placeholder="Dr. Jane Smith, MD"></div>
+          <div class="field"><label for="director">Medical director <small>(shown on each reel)</small></label><input id="director" name="director" placeholder="Dr. Jane Smith, MD" required></div>
         </div>
-        <div class="field"><label>Brand colors <small>(optional)</small></label>
-          <div class="colors"><input type="color" name="color1" value="#a8675f" aria-label="Main color"><input type="color" name="color2" value="#ecd0c6" aria-label="Second color"><span>Or reply with your logo and we'll match it.</span></div>
+        <div class="field"><label>Brand colors</label>
+          <div class="colors"><input type="color" name="color1" value="#a8675f" aria-label="Main color"><input type="color" name="color2" value="#ecd0c6" aria-label="Second color"><span>Main color, then a light background color.</span></div>
         </div>
+        <div class="field"><label for="logo">Your logo <small>(PNG or JPG, up to 5 MB)</small></label><input id="logo" name="logo" type="file" accept="image/png,image/jpeg,image/webp"></div>
         <div class="field"><label for="treatments">Treatments to feature first</label><textarea id="treatments" name="treatments" rows="3" placeholder="e.g. tox, lip filler, HydraFacial, laser hair removal"></textarea></div>
         <button class="btn" type="submit">Start my reels</button>
         <p class="note">Please don't send patient photos or patient details.</p>
@@ -83,7 +84,7 @@ footer{font-size:13px;color:var(--muted);padding:0 0 36px}footer a{color:var(--r
     <div class="done" id="done">
       <div class="tick">✓</div>
       <h2>You're all set</h2>
-      <p>Check your inbox for the welcome email and reply to it with your logo.<br>Your first 12 reels arrive within 5 business days.</p>
+      <p>Check your inbox for your welcome email.<br>Your first 12 reels arrive within 5 business days.</p>
     </div>
   </div>
 
@@ -100,12 +101,16 @@ f.addEventListener('submit',function(e){
   e.preventDefault();
   var d={};['company','email','clinic','instagram','director','treatments'].forEach(function(k){d[k]=f[k].value;});
   d.colors=f.color1.value+', '+f.color2.value;
-  if(!d.clinic.trim()||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email.trim())){alert('Please add your email and clinic name.');return;}
+  if(!d.clinic.trim()||!d.director.trim()||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email.trim())){alert('Please add your email, clinic name and medical director.');return;}
+  var lf=f.logo.files[0];
+  if(lf&&(lf.size>5*1024*1024||!/^image\/(png|jpeg|webp)$/.test(lf.type))){alert('Logo must be a PNG, JPG or WebP under 5 MB.');return;}
   var b=f.querySelector('button');b.disabled=true;b.textContent='Sending...';
-  fetch('https://medspareels-lead.facelessvideokit.workers.dev/onboard',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)})
-   .then(function(r){return r.json();}).then(function(j){if(!j.ok)throw 0;
+  var up=lf?(function(){var fd=new FormData();fd.append('email',d.email.trim());fd.append('logo',lf);
+    return fetch('https://medspareels-lead.facelessvideokit.workers.dev/logo',{method:'POST',body:fd}).then(function(r){return r.json();}).then(function(j){if(!j.ok)throw 0;});})():Promise.resolve();
+  up.then(function(){return fetch('https://medspareels-lead.facelessvideokit.workers.dev/onboard',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)})
+   .then(function(r){return r.json();});}).then(function(j){if(!j.ok)throw 0;
      document.getElementById('formwrap').style.display='none';document.getElementById('done').style.display='block';
-     var s=document.querySelectorAll('.steps li');s[0].classList.remove('now');s[1].classList.add('now');s[0].querySelector('b').textContent='✓';})
+     var s=document.querySelectorAll('.steps li');s[0].classList.remove('now');s[2].classList.add('now');s[0].querySelector('b').textContent='✓';s[1].querySelector('b').textContent='✓';})
    .catch(function(){b.disabled=false;b.textContent='Start my reels';alert('Something went wrong. Please try again, or email help@facelessvideokit.com.');});
 });
 </script></body></html>
