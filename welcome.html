@@ -1,42 +1,111 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex"><title>Welcome | MedSpa Reels</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <!-- PageView only: Whop's own Meta Pixel integration fires Purchase at checkout, so no Purchase here (no double count). -->
 <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','1828975231465361');fbq('track','PageView');</script>
-<style>:root{--cream:#faf4ee;--rose:#a8675f;--ink:#2c2220;--muted:#6f625e;--line:#ead9cf}
-*{box-sizing:border-box;margin:0;padding:0}body{font-family:Inter,system-ui,sans-serif;color:var(--ink);background:var(--cream);line-height:1.55}
-.wrap{max-width:620px;margin:0 auto;padding:0 20px}nav .wrap{height:64px;display:flex;align-items:center}
+<style>
+:root{--cream:#faf4ee;--blush:#ecd0c6;--rose:#a8675f;--ink:#2c2220;--muted:#6f625e;--line:#ead9cf;--white:#fff}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,system-ui,sans-serif;color:var(--ink);background:var(--cream);line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:640px;margin:0 auto;padding:0 20px}
+nav .wrap{height:64px;display:flex;align-items:center}
 .logo{font-family:"Cormorant Garamond",serif;font-size:26px;font-weight:600;color:var(--ink);text-decoration:none}.logo em{color:var(--rose)}
-h1{font-family:"Cormorant Garamond",serif;font-size:44px;line-height:1.05;margin:24px 0 10px}p{color:var(--muted);margin-bottom:12px}
-.card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:26px;margin:22px 0 60px}
-form{display:grid;gap:10px}label{font-size:14px;font-weight:600}input,textarea{padding:13px 15px;border-radius:12px;border:1px solid var(--line);font:inherit;font-size:16px;background:var(--cream)}
-.btn{background:var(--ink);color:var(--cream);font-weight:600;font-size:17px;padding:15px;border-radius:999px;border:0;cursor:pointer;margin-top:6px}
-.ok{display:none;color:var(--rose);font-weight:600}footer{font-size:13px;color:var(--muted);padding-bottom:40px}footer a{color:var(--rose)}</style></head>
-<body><nav><div class="wrap"><a class="logo" href="./">MedSpa <em>Reels</em></a></div></nav>
-<main class="wrap"><h1>You're in. One last step.</h1>
-<p>Tell us about your clinic so we can make your first 12 reels. It takes about 2 minutes. Your first month arrives by email within 5 business days.</p>
-<div class="card"><form id="f" novalidate>
-<input name="company" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
-<label>Email you used at checkout<input name="email" type="email" required></label>
-<label>Clinic name<input name="clinic" required></label>
-<label>Instagram handle<input name="instagram" placeholder="@yourclinic"></label>
-<label>Medical director's name, for the line on each reel<input name="director"></label>
-<label>Treatments to feature first<textarea name="treatments" rows="3" placeholder="e.g. tox, lip filler, HydraFacial"></textarea></label>
-<button class="btn" type="submit">Send my details</button>
-<p style="font-size:13px">Send your logo and any photos or clips of your space by replying to the welcome email. No patient photos or details, please.</p>
-</form><p class="ok" id="ok">Got it. Check your inbox for your welcome email; reply to it with your logo.</p></div></main>
-<footer class="wrap"><p>Questions? <a href="mailto:help@facelessvideokit.com">help@facelessvideokit.com</a> · <a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a></p></footer>
+.badge{display:inline-flex;align-items:center;gap:8px;background:var(--white);border:1px solid var(--line);border-radius:999px;padding:6px 14px 6px 8px;font-size:13px;font-weight:600;margin-top:18px}
+.badge i{width:20px;height:20px;border-radius:50%;background:var(--rose);color:var(--white);display:grid;place-items:center;font-style:normal;font-size:12px}
+h1{font-family:"Cormorant Garamond",serif;font-weight:600;font-size:clamp(40px,8vw,56px);line-height:1.02;margin:14px 0 10px}
+h1 em{color:var(--rose)}
+.lead{font-size:17px;color:var(--muted)}
+.steps{list-style:none;display:grid;gap:10px;margin:26px 0}
+.steps li{display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start;background:var(--white);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.steps b{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--blush);color:var(--rose);font-family:"Cormorant Garamond",serif;font-size:20px}
+.steps li.now{border-color:var(--rose);box-shadow:0 0 0 3px #f3e1da}
+.steps strong{display:block;font-size:15.5px}.steps span{font-size:14px;color:var(--muted)}
+.card{background:var(--white);border:1px solid var(--line);border-radius:22px;padding:26px;margin:6px 0 24px;box-shadow:0 18px 40px rgba(44,34,32,.07)}
+.card h2{font-family:"Cormorant Garamond",serif;font-size:30px;font-weight:600;margin-bottom:4px}
+.card>p{color:var(--muted);font-size:14.5px;margin-bottom:18px}
+form{display:grid;gap:16px}
+.field{display:grid;gap:6px}
+.field label{font-size:14px;font-weight:600}
+.field label small{font-weight:400;color:var(--muted)}
+.field input,.field textarea{width:100%;padding:13px 15px;border-radius:12px;border:1px solid var(--line);font:inherit;font-size:16px;background:var(--cream);color:var(--ink)}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--rose);background:var(--white)}
+.row{display:grid;gap:16px}@media(min-width:560px){.row{grid-template-columns:1fr 1fr}}
+.colors{display:flex;gap:10px;align-items:center}
+.colors input[type=color]{width:52px;height:46px;padding:4px;border-radius:12px;border:1px solid var(--line);background:var(--cream);cursor:pointer}
+.colors span{font-size:13px;color:var(--muted)}
+.btn{background:var(--ink);color:var(--cream);font-weight:600;font-size:17px;padding:16px;border-radius:999px;border:0;cursor:pointer;width:100%;transition:transform .15s}
+.btn:hover{transform:translateY(-1px)}.btn:disabled{opacity:.6;cursor:default}
+.note{font-size:13px;color:var(--muted);text-align:center}
+.done{display:none;text-align:center;padding:10px 0}
+.done .tick{width:56px;height:56px;border-radius:50%;background:var(--rose);color:var(--white);display:grid;place-items:center;font-size:26px;margin:0 auto 12px}
+.done p{color:var(--muted)}
+.help{display:grid;gap:8px;margin-bottom:40px;font-size:14px;color:var(--muted)}
+.help a{color:var(--rose);font-weight:600}
+footer{font-size:13px;color:var(--muted);padding:0 0 36px}footer a{color:var(--rose)}
+</style></head>
+<body>
+<nav><div class="wrap"><a class="logo" href="./">MedSpa <em>Reels</em></a></div></nav>
+<main class="wrap">
+  <span class="badge"><i>✓</i>Order confirmed · Whop sent your receipt</span>
+  <h1>Welcome. Your reels are <em>on the way.</em></h1>
+  <p class="lead">One quick step and we start on your first 12 reels.</p>
+
+  <ol class="steps">
+    <li class="now"><b>1</b><div><strong>Tell us about your clinic</strong><span>The form below. About 2 minutes.</span></div></li>
+    <li><b>2</b><div><strong>Send your logo</strong><span>Reply to the welcome email with your logo and any photos or clips of your space.</span></div></li>
+    <li><b>3</b><div><strong>Get your first 12 reels</strong><span>By email within 5 business days: voice and silent versions, captions, hashtags and a posting calendar.</span></div></li>
+    <li><b>4</b><div><strong>Review and post</strong><span>Your medical director approves them. Reply with any change and we make it.</span></div></li>
+  </ol>
+
+  <div class="card">
+    <div id="formwrap">
+      <h2>Your clinic</h2>
+      <p>We use this on every reel. You can change anything later by replying to any email.</p>
+      <form id="f" novalidate>
+        <input name="company" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+        <div class="row">
+          <div class="field"><label for="email">Email used at checkout</label><input id="email" name="email" type="email" autocomplete="email" required></div>
+          <div class="field"><label for="clinic">Clinic name</label><input id="clinic" name="clinic" autocomplete="organization" required></div>
+        </div>
+        <div class="row">
+          <div class="field"><label for="instagram">Instagram handle</label><input id="instagram" name="instagram" placeholder="@yourclinic"></div>
+          <div class="field"><label for="director">Medical director <small>(shown on each reel)</small></label><input id="director" name="director" placeholder="Dr. Jane Smith, MD"></div>
+        </div>
+        <div class="field"><label>Brand colors <small>(optional)</small></label>
+          <div class="colors"><input type="color" name="color1" value="#a8675f" aria-label="Main color"><input type="color" name="color2" value="#ecd0c6" aria-label="Second color"><span>Or reply with your logo and we'll match it.</span></div>
+        </div>
+        <div class="field"><label for="treatments">Treatments to feature first</label><textarea id="treatments" name="treatments" rows="3" placeholder="e.g. tox, lip filler, HydraFacial, laser hair removal"></textarea></div>
+        <button class="btn" type="submit">Start my reels</button>
+        <p class="note">Please don't send patient photos or patient details.</p>
+      </form>
+    </div>
+    <div class="done" id="done">
+      <div class="tick">✓</div>
+      <h2>You're all set</h2>
+      <p>Check your inbox for the welcome email and reply to it with your logo.<br>Your first 12 reels arrive within 5 business days.</p>
+    </div>
+  </div>
+
+  <div class="help">
+    <div>Questions? Email <a href="mailto:help@facelessvideokit.com">help@facelessvideokit.com</a>.</div>
+    <div>Manage or cancel anytime in your <a href="https://whop.com/@me/settings/memberships/">Whop account</a>.</div>
+  </div>
+</main>
+<footer class="wrap"><p>© 2026 MedSpa Reels · <a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a></p></footer>
 <script>
 var f=document.getElementById('f'),q=new URLSearchParams(location.search);
 if(q.get('email'))f.email.value=q.get('email');
 f.addEventListener('submit',function(e){
   e.preventDefault();
   var d={};['company','email','clinic','instagram','director','treatments'].forEach(function(k){d[k]=f[k].value;});
+  d.colors=f.color1.value+', '+f.color2.value;
   if(!d.clinic.trim()||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email.trim())){alert('Please add your email and clinic name.');return;}
   var b=f.querySelector('button');b.disabled=true;b.textContent='Sending...';
   fetch('https://medspareels-lead.facelessvideokit.workers.dev/onboard',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)})
-   .then(function(r){return r.json();}).then(function(j){if(!j.ok)throw 0;f.style.display='none';document.getElementById('ok').style.display='block';})
-   .catch(function(){b.disabled=false;b.textContent='Send my details';alert('Something went wrong. Please try again, or email help@facelessvideokit.com.');});
+   .then(function(r){return r.json();}).then(function(j){if(!j.ok)throw 0;
+     document.getElementById('formwrap').style.display='none';document.getElementById('done').style.display='block';
+     var s=document.querySelectorAll('.steps li');s[0].classList.remove('now');s[1].classList.add('now');s[0].querySelector('b').textContent='✓';})
+   .catch(function(){b.disabled=false;b.textContent='Start my reels';alert('Something went wrong. Please try again, or email help@facelessvideokit.com.');});
 });
 </script></body></html>
