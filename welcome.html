@@ -107,6 +107,7 @@ f.addEventListener('submit',function(e){
   e.preventDefault();
   var d={};['company','email','clinic','instagram','director','treatments'].forEach(function(k){d[k]=f[k].value;});
   d.colors=f.color1.value+', '+f.color2.value;
+  if(q.get('test')==='1'){d.test=true;window.fbq=function(){};}   /* owner's end-to-end test: no Meta events */
   if(!d.clinic.trim()||!d.director.trim()||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email.trim())){alert('Please add your email, clinic name and medical director.');return;}
   var lf=f.logo.files[0];
   if(lf&&(lf.size>5*1024*1024||!/^image\/(png|jpeg|webp)$/.test(lf.type))){alert('Logo must be a PNG, JPG or WebP under 5 MB.');return;}

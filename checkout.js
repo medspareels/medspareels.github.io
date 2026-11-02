@@ -12,6 +12,8 @@
     {k:'ads',plan:'plan_jRnpX8EaTBfwq',name:'Ad-ready cuts',price:49,line:'3 reels a month re-cut for Meta ads, with ad copy'},
     {k:'reviews',plan:'plan_X9i1lK3vRJBk2',name:'Review reels',price:39,line:'Up to 4 reels a month from your Google reviews'},
     {k:'stories',plan:'plan_Etp3F4AOFRtqd',name:'Matching Stories',price:29,line:'A Story image for every reel'}];
+  /* ?test=<code> on the page: owner's end-to-end test with a 100%-off Whop code. No pixel events, welcome page marked test. */
+  var TEST=new URLSearchParams(location.search).get('test')||'';
   var me=document.currentScript, ADDON_ONLY=!!(me&&me.getAttribute('data-msr-mode')==='addons');
   var RX=/whop\.com\/checkout\/(plan_[A-Za-z0-9]{6,30})/;
   var css='.msco{position:fixed;inset:0;z-index:300;background:rgba(44,34,32,.62);display:grid;place-items:center;padding:16px}'+
@@ -47,7 +49,7 @@
   var s1=$('msco-s1'),s2=$('msco-s2'),mountEl=$('msco-mount'),wait=$('msco-wait'),title=$('msco-t'),go=$('msco-go');
   var boxes=[].slice.call(co.querySelectorAll('.msco-add input'));
   var sdk=null,sdkWait=[],handle=null,timer=0,lastFocus=null;
-  function fb(){try{if(window.fbq&&typeof PIXEL_ID!=='undefined'&&PIXEL_ID!=='PIXEL_ID')fbq.apply(null,arguments)}catch(e){}}
+  function fb(){if(TEST)return;try{if(window.fbq&&typeof PIXEL_ID!=='undefined'&&PIXEL_ID!=='PIXEL_ID')fbq.apply(null,arguments)}catch(e){}}
   function picked(){return ADDONS.filter(function(a){return boxes.some(function(b){return b.checked&&b.value===a.k})})}
   function totals(){var add=picked().reduce(function(s,a){return s+a.price},0);
     return ADDON_ONLY?{today:add,then:add}:{today:FIRST+add,then:MONTHLY+add}}
@@ -66,7 +68,7 @@
     fb('track','Purchase',{value:t.today,currency:'USD',content_name:'MedSpa Reels'+(p.length?' + '+p.map(function(a){return a.name}).join(' + '):''),
       content_ids:cart().map(function(i){return i.plan}),content_type:'product',num_items:cart().length},id?{eventID:id}:undefined);
     setTimeout(function(){
-      if(!ADDON_ONLY){location.href='/welcome.html'+(p.some(function(a){return a.k==='reviews'})?'?add=reviews':'');return}
+      if(!ADDON_ONLY){var qs=[];if(p.some(function(a){return a.k==='reviews'}))qs.push('add=reviews');if(TEST)qs.push('test=1');location.href='/welcome.html'+(qs.length?'?'+qs.join('&'):'');return}
       unmount();wait.hidden=true;title.textContent="Added";
       mountEl.innerHTML='<div style="text-align:center;padding:16px 4px"><p style="font-size:16px;margin:0 0 6px"><b>'+p.map(function(a){return a.name}).join(', ')+'</b> '+(p.length>1?'are':'is')+' now part of your plan.</p>'+
         '<p style="color:#6f625e;margin:0 0 16px">'+(p.some(function(a){return a.k==='reviews'})?'Send us your Google reviews on the next page. ':'')+'They arrive with your next monthly reels.</p>'+
@@ -74,9 +76,9 @@
   function pay(){var t=totals();s1.hidden=true;s2.hidden=false;title.textContent='Checkout';unmount();wait.hidden=false;
     fb('track','InitiateCheckout',{value:t.today,currency:'USD',content_name:'MedSpa Reels',content_ids:cart().map(function(i){return i.plan}),num_items:cart().length});
     loadSdk(function(w){
-      try{var opt={items:cart(),returnUrl:location.origin+location.pathname+'?checkout=done&add='+picked().map(function(a){return a.k}).join(','),
+      try{var opt={items:cart(),returnUrl:location.origin+location.pathname+'?'+(TEST?'test='+encodeURIComponent(TEST)+'&':'')+'checkout=done&add='+picked().map(function(a){return a.k}).join(','),
           appearance:{theme:{appearance:'light',accentColor:'tomato',grayColor:'auto'}},onComplete:done};
-        if(!ADDON_ONLY)opt.promoCode=PROMO;
+        if(TEST)opt.promoCode=TEST;else if(!ADDON_ONLY)opt.promoCode=PROMO;
         handle=w.checkout.create(opt);
         handle.create('checkout',{onReady:function(){clearTimeout(timer);wait.hidden=true},onError:bail}).mount(mountEl);}catch(e){bail();return}
       timer=setTimeout(function(){if(!wait.hidden)bail()},12000);});}
