@@ -18,6 +18,8 @@
   var TEST=new URLSearchParams(location.search).get('test')||'';
   var me=document.currentScript, ADDON_ONLY=!!(me&&me.getAttribute('data-msr-mode')==='addons');
   var OWNED=(new URLSearchParams(location.search).get('add')||'').split(',').filter(Boolean);
+  /* add-ons bought from this browser on an add-ons page are remembered, so a static month page doesn't offer them again */
+  try{OWNED=OWNED.concat(JSON.parse(localStorage.getItem('msr_owned')||'[]'))}catch(e){}
   var RX=/whop\.com\/checkout\/(plan_[A-Za-z0-9]{6,30})/;
   var css='.msco{position:fixed;inset:0;z-index:300;background:rgba(44,34,32,.62);display:grid;place-items:center;padding:16px}'+
     '.msco[hidden]{display:none}.msco-box{box-sizing:border-box;width:min(520px,100%);max-height:calc(100dvh - 32px);overflow:auto;background:#fff;border-radius:20px;padding:20px;display:grid;gap:14px;box-shadow:0 30px 80px -20px rgba(0,0,0,.5);font-family:Inter,system-ui,sans-serif;color:#2c2220}'+
@@ -50,8 +52,13 @@
   document.body.appendChild(co);
   function $(id){return co.querySelector('#'+id)}
   var s1=$('msco-s1'),s2=$('msco-s2'),mountEl=$('msco-mount'),wait=$('msco-wait'),title=$('msco-t'),go=$('msco-go');
+  if(ADDON_ONLY)OWNED.forEach(function(k){[].slice.call(document.querySelectorAll('[data-msr-addon="'+k+'"]')).forEach(function(el){el.remove()})});
   var boxes=[].slice.call(co.querySelectorAll('.msco-add input'));
-  if(ADDON_ONLY)boxes=boxes.filter(function(b){if(OWNED.indexOf(b.value)<0)return true;b.closest('label').remove();return false});
+  /* add-ons-only pages offer just the add-ons linked on the page (deliver.py lists only ones not yet bought;
+     welcome.html drops owned ones before this runs), so a customer can never buy one twice */
+  if(ADDON_ONLY){var onPage=[].slice.call(document.querySelectorAll('a[href*="whop.com/checkout/"]')).map(function(a){var m=a.href.match(RX);return m&&m[1]});
+    boxes=boxes.filter(function(b){var a=ADDONS.filter(function(x){return x.k===b.value})[0];
+      if(OWNED.indexOf(b.value)<0&&onPage.indexOf(a.plan)>=0)return true;b.closest('label').remove();return false})}
   var sdk=null,sdkWait=[],handle=null,timer=0,lastFocus=null;
   function fb(){if(TEST)return;try{if(window.fbq&&typeof PIXEL_ID!=='undefined'&&PIXEL_ID!=='PIXEL_ID')fbq.apply(null,arguments)}catch(e){}}
   function picked(){return ADDONS.filter(function(a){return boxes.some(function(b){return b.checked&&b.value===a.k})})}
@@ -73,13 +80,15 @@
       content_ids:cart().map(function(i){return i.plan}),content_type:'product',num_items:cart().length},id?{eventID:id}:undefined);
     setTimeout(function(){
       if(!ADDON_ONLY){var qs=[];if(p.length)qs.push('add='+p.map(function(a){return a.k}).join(','));if(TEST)qs.push('test=1');if(r&&r.paymentId)qs.push('pay='+encodeURIComponent(r.paymentId));location.href='/welcome.html'+(qs.length?'?'+qs.join('&'):'');return}
+      if(!TEST)try{localStorage.setItem('msr_owned',JSON.stringify(OWNED.concat(p.map(function(a){return a.k}))))}catch(e){}
       unmount();wait.hidden=true;title.textContent="Added";
       mountEl.innerHTML='<div style="text-align:center;padding:16px 4px"><p style="font-size:16px;margin:0 0 6px"><b>'+p.map(function(a){return a.name}).join(', ')+'</b> '+(p.length>1?'are':'is')+' now part of your plan.</p>'+
         '<p style="color:#6f625e;margin:0 0 16px">'+(p.some(function(a){return a.k==='reviews'})?'Send us your Google reviews on the next page. ':'')+'They arrive with your next monthly reels.</p>'+
         '<a class="msco-go" id="msco-done" style="display:inline-block;width:auto;text-decoration:none;padding:12px 22px" href="'+(p.some(function(a){return a.k==='reviews'})?'/reviews.html':'#')+'">'+(p.some(function(a){return a.k==='reviews'})?'Send reviews':'Done')+'</a></div>';
       var dn=$('msco-done');if(dn&&dn.getAttribute('href')==='#')dn.addEventListener('click',function(e){e.preventDefault();close();
         p.forEach(function(a){var el=document.querySelector('[data-msr-addon="'+a.k+'"]');if(el)el.remove()});
-        var b=document.getElementById('msr-more');if(b&&!b.querySelector('[data-msr-addon]'))b.remove()});},450)}
+        var b=document.getElementById('msr-more');if(b&&!b.querySelector('[data-msr-addon]'))b.remove()});
+      p.forEach(function(a){boxes=boxes.filter(function(x){if(x.value!==a.k)return true;x.closest('label').remove();return false})});},450)}
   function pay(){var t=totals();s1.hidden=true;s2.hidden=false;title.textContent='Checkout';unmount();wait.hidden=false;
     fb('track','InitiateCheckout',{value:t.today,currency:'USD',content_name:'MedSpa Reels',content_ids:cart().map(function(i){return i.plan}),num_items:cart().length});
     loadSdk(function(w){
