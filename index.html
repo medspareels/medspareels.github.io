@@ -215,7 +215,7 @@ var y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)},0)})})(window
     <div class="card"><h3>Review reels <span style="color:var(--rose)">+$39/mo</span></h3><p>Up to 4 reels a month from your own Google reviews, word for word, with first name and last initial. You paste them in once; we do the rest.</p><p><a class="addon-buy" data-addon="reviews" href="https://whop.com/checkout/plan_X9i1lK3vRJBk2/" style="color:var(--rose);font-weight:600">Add review reels</a></p></div>
     <div class="card"><h3>Matching Stories <span style="color:var(--rose)">+$29/mo</span></h3><p>A Story image for every reel, same topic and colors, with space for a question sticker. Your Stories stop going quiet.</p><p><a class="addon-buy" data-addon="stories" href="https://whop.com/checkout/plan_Etp3F4AOFRtqd/" style="color:var(--rose);font-weight:600">Add matching Stories</a></p></div>
   </div>
-  <p class="small" style="text-align:center;margin-top:14px">Use the same email as your MedSpa Reels plan so they arrive together.</p>
+  <p class="small" style="text-align:center;margin-top:14px">Tick them in the checkout when you start, or add them later from any month's reels page.</p>
 </div></section>
 
 <section><div class="wrap" style="max-width:760px">
@@ -257,10 +257,11 @@ f.addEventListener('submit',function(e){
    .catch(function(){b.disabled=false;b.textContent='Send me 3 free reels';alert('Something went wrong. Please try again.');});
 });
 var started=false;f.addEventListener('focusin',function(){if(!started&&typeof fbq==='function'){started=true;fbq('trackCustom','FormStart');}});
-['buy','buy2'].forEach(function(id){document.getElementById(id).addEventListener('click',function(){if(typeof fbq==='function'){fbq('track','InitiateCheckout',{value:79,currency:'USD'});}});});
+/* buy links (#buy, #buy2, add-on cards) open the on-site checkout popup: checkout.js, which also fires InitiateCheckout */
 (function(){var s=document.getElementById('sticky'),t=document.getElementById('start');if(!('IntersectionObserver' in window))return;
  new IntersectionObserver(function(e){s.classList.toggle('hide',e[0].isIntersecting);},{threshold:0.15}).observe(t);})();
 document.querySelectorAll('.reels video').forEach(function(v){v.addEventListener('play',function(){v.muted=false;});});
 </script>
+<script src="checkout.js" defer></script>
 </body>
 </html>
