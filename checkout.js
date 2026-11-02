@@ -68,7 +68,7 @@
     fb('track','Purchase',{value:t.today,currency:'USD',content_name:'MedSpa Reels'+(p.length?' + '+p.map(function(a){return a.name}).join(' + '):''),
       content_ids:cart().map(function(i){return i.plan}),content_type:'product',num_items:cart().length},id?{eventID:id}:undefined);
     setTimeout(function(){
-      if(!ADDON_ONLY){var qs=[];if(p.some(function(a){return a.k==='reviews'}))qs.push('add=reviews');if(TEST)qs.push('test=1');location.href='/welcome.html'+(qs.length?'?'+qs.join('&'):'');return}
+      if(!ADDON_ONLY){var qs=[];if(p.some(function(a){return a.k==='reviews'}))qs.push('add=reviews');if(TEST)qs.push('test=1');if(r&&r.paymentId)qs.push('pay='+encodeURIComponent(r.paymentId));location.href='/welcome.html'+(qs.length?'?'+qs.join('&'):'');return}
       unmount();wait.hidden=true;title.textContent="Added";
       mountEl.innerHTML='<div style="text-align:center;padding:16px 4px"><p style="font-size:16px;margin:0 0 6px"><b>'+p.map(function(a){return a.name}).join(', ')+'</b> '+(p.length>1?'are':'is')+' now part of your plan.</p>'+
         '<p style="color:#6f625e;margin:0 0 16px">'+(p.some(function(a){return a.k==='reviews'})?'Send us your Google reviews on the next page. ':'')+'They arrive with your next monthly reels.</p>'+

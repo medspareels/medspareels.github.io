@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex"><title>Manage your plan | MedSpa Reels</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- PageView only: Whop's own Meta Pixel integration fires Purchase at checkout, so no Purchase here (no double count). -->
+<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','1828975231465361');fbq('track','PageView');</script>
+<style>
+:root{--cream:#faf4ee;--blush:#ecd0c6;--rose:#a8675f;--ink:#2c2220;--muted:#6f625e;--line:#ead9cf;--white:#fff}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,system-ui,sans-serif;color:var(--ink);background:var(--cream);line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:640px;margin:0 auto;padding:0 20px}
+nav .wrap{height:64px;display:flex;align-items:center}
+.logo{font-family:"Cormorant Garamond",serif;font-size:26px;font-weight:600;color:var(--ink);text-decoration:none}.logo em{color:var(--rose)}
+.badge{display:inline-flex;align-items:center;gap:8px;background:var(--white);border:1px solid var(--line);border-radius:999px;padding:6px 14px 6px 8px;font-size:13px;font-weight:600;margin-top:18px}
+.badge i{width:20px;height:20px;border-radius:50%;background:var(--rose);color:var(--white);display:grid;place-items:center;font-style:normal;font-size:12px}
+h1{font-family:"Cormorant Garamond",serif;font-weight:600;font-size:clamp(40px,8vw,56px);line-height:1.02;margin:14px 0 10px}
+h1 em{color:var(--rose)}
+.lead{font-size:17px;color:var(--muted)}
+.steps{list-style:none;display:grid;gap:10px;margin:26px 0}
+.steps li{display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start;background:var(--white);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.steps b{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--blush);color:var(--rose);font-family:"Cormorant Garamond",serif;font-size:20px}
+.steps li.now{border-color:var(--rose);box-shadow:0 0 0 3px #f3e1da}
+.steps strong{display:block;font-size:15.5px}.steps span{font-size:14px;color:var(--muted)}
+.card{background:var(--white);border:1px solid var(--line);border-radius:22px;padding:26px;margin:6px 0 24px;box-shadow:0 18px 40px rgba(44,34,32,.07)}
+.card h2{font-family:"Cormorant Garamond",serif;font-size:30px;font-weight:600;margin-bottom:4px}
+#formwrap>p{color:var(--muted);font-size:14.5px;margin-bottom:18px}
+form{display:grid;gap:16px}
+.field{display:grid;gap:6px}
+.field label{font-size:14px;font-weight:600}
+.field label small{font-weight:400;color:var(--muted)}
+.field input,.field textarea{width:100%;padding:13px 15px;border-radius:12px;border:1px solid var(--line);font:inherit;font-size:16px;background:var(--cream);color:var(--ink)}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--rose);background:var(--white)}
+.row{display:grid;gap:16px}@media(min-width:560px){.row{grid-template-columns:1fr 1fr}}
+.plan{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:10px;background:var(--cream)}.plan input{margin-top:4px;width:18px;height:18px;accent-color:var(--rose)}.plan span{display:grid;gap:2px}.plan small{color:var(--muted)}.plan em{font-style:normal;margin-left:auto;font-weight:600;white-space:nowrap}.btn.alt{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.colors{display:flex;gap:10px;align-items:center}
+.colors input[type=color]{width:52px;height:46px;padding:4px;border-radius:12px;border:1px solid var(--line);background:var(--cream);cursor:pointer}
+.colors span{font-size:13px;color:var(--muted)}
+.btn{background:var(--ink);color:var(--cream);font-weight:600;font-size:17px;padding:16px;border-radius:999px;border:0;cursor:pointer;width:100%;transition:transform .15s}
+.btn:hover{transform:translateY(-1px)}.btn:disabled{opacity:.6;cursor:default}
+.note{font-size:13px;color:var(--muted);text-align:center}
+.done{display:none;text-align:center;padding:10px 0}
+.done .tick{width:56px;height:56px;border-radius:50%;background:var(--rose);color:var(--white);display:grid;place-items:center;font-size:26px;margin:0 auto 12px}
+.done p{color:var(--muted)}
+.help{display:grid;gap:8px;margin-bottom:40px;font-size:14px;color:var(--muted)}
+.help a{color:var(--rose);font-weight:600}
+footer{font-size:13px;color:var(--muted);padding:0 0 36px}footer a{color:var(--rose)}
+</style>
+<script>/* Microsoft Clarity (session recordings + heatmaps); loads after the page paints */
+(function(c,l,a,r,i){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+c.addEventListener("load",function(){setTimeout(function(){var t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+var y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)},0)})})(window,document,"clarity","script","z5sr5s36yh");</script>
+</head>
+<body>
+<nav><div class="wrap"><a class="logo" href="./">MedSpa <em>Reels</em></a></div></nav>
+<main class="wrap">
+  <h1>Manage your <em>plan.</em></h1>
+  <p class="lead" id="lead">Change add-ons or cancel. You keep everything already delivered.</p>
+  <div class="card">
+    <div id="ask">
+      <h2>Email on your plan</h2>
+      <p>We'll email you a secure link to manage it. No password needed.</p>
+      <form id="f" novalidate><div class="field"><label for="email">Email</label><input id="email" type="email" autocomplete="email" required></div>
+        <button class="btn" type="submit">Email me the link</button></form>
+    </div>
+    <div id="sent" class="done"><div class="tick">✓</div><h2>Check your inbox</h2><p>If that email has a MedSpa Reels plan, the link is on its way. It works for 24 hours.</p></div>
+    <div id="manage" style="display:none">
+      <h2>Your plan</h2>
+      <p class="note" id="who"></p>
+      <div id="list"></div>
+      <div class="field" id="whybox"><label for="why">Mind telling us why? <small>(optional)</small></label>
+        <select id="why"><option value="">Choose one</option><option>Too expensive</option><option>Not posting enough to need it</option><option>Reels weren't right for my clinic</option><option>Doing it in-house now</option><option>Other</option></select></div>
+      <button class="btn" id="go" type="button">Cancel selected at end of billing period</button>
+      <p class="note">Cancelling stops the next renewal. You keep access and this month's reels until the date shown. Cancelling the main plan also cancels its add-ons.</p>
+    </div>
+    <div id="bad" style="display:none"><h2>This link has expired</h2><p>Links work for 24 hours. <a href="cancel.html">Get a new one</a>.</p></div>
+  </div>
+  <div class="help"><div>Questions? Email <a href="mailto:hello@medspareels.com">hello@medspareels.com</a>.</div></div>
+</main>
+<footer class="wrap"><p>© 2026 MedSpa Reels · <a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a></p></footer>
+<script>
+var W='https://medspareels-lead.facelessvideokit.workers.dev',q=new URLSearchParams(location.search),A={e:q.get('e'),x:q.get('x'),t:q.get('t')};
+function $(i){return document.getElementById(i)}
+function post(p,d){return fetch(W+p,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)}).then(function(r){return r.json()})}
+function day(s){if(!s)return '';var d=new Date(s);return isNaN(d)?'':d.toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'})}
+function show(ms){$('ask').style.display='none';$('manage').style.display='block';$('who').textContent=A.e;
+  if(!ms.length){$('list').innerHTML='<p>There is no active plan on this email.</p>';$('go').style.display='none';$('whybox').style.display='none';return}
+  $('list').innerHTML=ms.map(function(m){var end=day(m.ends);
+    return m.cancelling?'<div class="plan"><span><b>'+m.name+'</b><small>Cancelled, ends '+(end||'at the end of this billing period')+'</small></span><button class="btn alt" style="margin-left:auto;padding:8px 14px" data-undo="'+m.id+'">Keep it</button></div>'
+      :'<label class="plan"><input type="checkbox" value="'+m.id+'" data-core="'+(m.core?1:0)+'"><span><b>'+m.name+'</b><small>'+(end?'Renews '+end:'Active')+'</small></span><em>$'+m.price+'/mo</em></label>'}).join('');
+  var live=ms.some(function(m){return !m.cancelling});$('go').style.display=live?'':'none';$('whybox').style.display=live?'':'none';
+  [].forEach.call(document.querySelectorAll('[data-core="1"]'),function(c){c.addEventListener('change',function(){if(c.checked)[].forEach.call(document.querySelectorAll('.plan input'),function(x){x.checked=true})})});
+  [].forEach.call(document.querySelectorAll('[data-undo]'),function(b){b.addEventListener('click',function(){b.disabled=true;
+    post('/cancel/do',Object.assign({mode:'undo',ids:[b.getAttribute('data-undo')]},A)).then(function(j){if(!j.ok)throw 0;show(j.memberships)}).catch(function(){b.disabled=false;alert('Something went wrong. Please email hello@medspareels.com.')})})})}
+if(A.e&&A.x&&A.t){$('lead').textContent='Loading your plan…';
+  post('/cancel/list',A).then(function(j){if(!j.ok){$('ask').style.display='none';$('bad').style.display='block';return}$('lead').textContent='Change add-ons or cancel. You keep everything already delivered.';show(j.memberships)})
+    .catch(function(){$('lead').textContent='Something went wrong. Please refresh, or email hello@medspareels.com.'})}
+$('f').addEventListener('submit',function(e){e.preventDefault();var v=$('email').value.trim();if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)){alert('Please enter your email.');return}
+  var b=e.target.querySelector('button');b.disabled=true;b.textContent='Sending…';
+  post('/cancel/start',{email:v}).then(function(){$('ask').style.display='none';$('sent').style.display='block'}).catch(function(){b.disabled=false;b.textContent='Email me the link';alert('Something went wrong. Please try again.')})});
+$('go').addEventListener('click',function(){var ids=[].map.call(document.querySelectorAll('.plan input:checked'),function(c){return c.value});
+  if(!ids.length){alert('Tick what you want to cancel.');return}
+  if(!confirm('Cancel at the end of your billing period? You keep access until then.'))return;
+  var b=$('go');b.disabled=true;b.textContent='Cancelling…';
+  post('/cancel/do',Object.assign({mode:'cancel',ids:ids,reason:$('why').value},A)).then(function(j){if(!j.ok)throw 0;b.disabled=false;b.textContent='Cancel selected at end of billing period';show(j.memberships)})
+   .catch(function(){b.disabled=false;b.textContent='Cancel selected at end of billing period';alert('Something went wrong. Please email hello@medspareels.com.')})});
+</script></body></html>
