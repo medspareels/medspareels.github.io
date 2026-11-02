@@ -104,7 +104,8 @@ var y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)},0)})})(window
 var f=document.getElementById('f'),q=new URLSearchParams(location.search);
 if(q.get('email'))f.email.value=q.get('email');
 /* after the on-site checkout: fill in the email the buyer used at checkout, so Whop and our records match */
-if(q.get('pay'))fetch('https://medspareels-lead.facelessvideokit.workers.dev/buyer?p='+encodeURIComponent(q.get('pay'))).then(function(r){return r.json()}).then(function(j){if(j.ok&&j.email&&!f.email.value)f.email.value=j.email}).catch(function(){});
+var payId=q.get('pay')||q.get('payment_id');   /* ours (popup onComplete) or Whop's own redirect */
+if(payId)fetch('https://medspareels-lead.facelessvideokit.workers.dev/buyer?p='+encodeURIComponent(payId)).then(function(r){return r.json()}).then(function(j){if(j.ok&&j.email&&!f.email.value)f.email.value=j.email}).catch(function(){});
 f.addEventListener('submit',function(e){
   e.preventDefault();
   var d={};['company','email','clinic','instagram','director','treatments'].forEach(function(k){d[k]=f[k].value;});
