@@ -91,6 +91,13 @@ var y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)},0)})})(window
       <h2>You're all set</h2>
       <p>Check your inbox for your welcome email.<br>Your first 12 reels arrive within 2 business days.</p>
       <p id="revnext" style="display:none;margin-top:14px">You added review reels: <a href="reviews.html">send us your Google reviews</a> so they're in your first batch.</p>
+      <div id="msr-more" style="margin-top:26px;text-align:left;border-top:1px solid #ead9cf;padding-top:18px">
+        <p style="font-weight:600;margin:0 0 4px">Want more from each month?</p>
+        <p style="color:#6f625e;font-size:14px;margin:0 0 12px">Add any of these now and they start with your first batch. Use the same email at checkout.</p>
+        <p data-msr-addon="ads" style="margin:0 0 8px"><a href="https://whop.com/checkout/plan_jRnpX8EaTBfwq/">Ad-ready cuts (+$49/mo)</a>: 3 reels a month re-cut for Meta ads, with ad copy</p>
+        <p data-msr-addon="reviews" style="margin:0 0 8px"><a href="https://whop.com/checkout/plan_X9i1lK3vRJBk2/">Review reels (+$39/mo)</a>: up to 4 reels a month from your Google reviews</p>
+        <p data-msr-addon="stories" style="margin:0"><a href="https://whop.com/checkout/plan_Etp3F4AOFRtqd/">Matching Stories (+$29/mo)</a>: a Story image for every reel</p>
+      </div>
     </div>
   </div>
 
@@ -123,5 +130,7 @@ f.addEventListener('submit',function(e){
      var s=document.querySelectorAll('.steps li');s[0].classList.remove('now');s[2].classList.add('now');s[0].querySelector('b').textContent='✓';s[1].querySelector('b').textContent='✓';})
    .catch(function(){b.disabled=false;b.textContent='Start my reels';alert('Something went wrong. Please try again, or email hello@medspareels.com.');});
 });
-</script><script>if(/(^|[?&])add=reviews/.test(location.search)){var r=document.getElementById('revnext');if(r)r.style.display='block';var a=r&&r.querySelector('a'),f=document.querySelector('input[type=email]');if(a&&f)a.addEventListener('click',function(){if(f.value)a.href='reviews.html?e='+encodeURIComponent(f.value)});}</script>
+</script><script>(function(){var own=(new URLSearchParams(location.search).get('add')||'').split(',');own.forEach(function(k){var el=document.querySelector('[data-msr-addon="'+k+'"]');if(el)el.remove()});var m=document.getElementById('msr-more');if(m&&!m.querySelector('[data-msr-addon]'))m.remove()})();
+if(/(^|[?&])add=[^&]*reviews/.test(location.search)){var r=document.getElementById('revnext');if(r)r.style.display='block';var a=r&&r.querySelector('a'),f=document.querySelector('input[type=email]');if(a&&f)a.addEventListener('click',function(){if(f.value)a.href='reviews.html?e='+encodeURIComponent(f.value)});}</script>
+<script src="checkout.js" data-msr-mode="addons" defer></script>
 </body></html>

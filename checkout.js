@@ -3,7 +3,9 @@
    Step 1: the plan plus the add-ons as checkboxes, with the total. Step 2: Whop Elements checkout for
    the whole cart (core plan + ticked add-ons, one charge, one membership per product), so deliver.py
    sees each add-on as its own Whop membership.
-   On a month page (data-msr-mode="addons" on the script tag) the popup sells add-ons only.
+   On a month page or the welcome page (data-msr-mode="addons") the popup sells add-ons only, hiding any already
+   bought (?add=ads,reviews on the URL). ?buy=1 on the URL opens the popup on load: DM and email buy links land here,
+   so every buyer sees the add-ons before paying.
    If Elements fails to load or draw within 12 s, the buyer goes to Whop's hosted checkout for the core
    plan (nothing is lost). Purchase fires in the browser with eventID = the Whop payment id. */
 (function(){
@@ -15,6 +17,7 @@
   /* ?test=<code> on the page: owner's end-to-end test with a 100%-off Whop code. No pixel events, welcome page marked test. */
   var TEST=new URLSearchParams(location.search).get('test')||'';
   var me=document.currentScript, ADDON_ONLY=!!(me&&me.getAttribute('data-msr-mode')==='addons');
+  var OWNED=(new URLSearchParams(location.search).get('add')||'').split(',').filter(Boolean);
   var RX=/whop\.com\/checkout\/(plan_[A-Za-z0-9]{6,30})/;
   var css='.msco{position:fixed;inset:0;z-index:300;background:rgba(44,34,32,.62);display:grid;place-items:center;padding:16px}'+
     '.msco[hidden]{display:none}.msco-box{box-sizing:border-box;width:min(520px,100%);max-height:calc(100dvh - 32px);overflow:auto;background:#fff;border-radius:20px;padding:20px;display:grid;gap:14px;box-shadow:0 30px 80px -20px rgba(0,0,0,.5);font-family:Inter,system-ui,sans-serif;color:#2c2220}'+
@@ -48,6 +51,7 @@
   function $(id){return co.querySelector('#'+id)}
   var s1=$('msco-s1'),s2=$('msco-s2'),mountEl=$('msco-mount'),wait=$('msco-wait'),title=$('msco-t'),go=$('msco-go');
   var boxes=[].slice.call(co.querySelectorAll('.msco-add input'));
+  if(ADDON_ONLY)boxes=boxes.filter(function(b){if(OWNED.indexOf(b.value)<0)return true;b.closest('label').remove();return false});
   var sdk=null,sdkWait=[],handle=null,timer=0,lastFocus=null;
   function fb(){if(TEST)return;try{if(window.fbq&&typeof PIXEL_ID!=='undefined'&&PIXEL_ID!=='PIXEL_ID')fbq.apply(null,arguments)}catch(e){}}
   function picked(){return ADDONS.filter(function(a){return boxes.some(function(b){return b.checked&&b.value===a.k})})}
@@ -68,11 +72,14 @@
     fb('track','Purchase',{value:t.today,currency:'USD',content_name:'MedSpa Reels'+(p.length?' + '+p.map(function(a){return a.name}).join(' + '):''),
       content_ids:cart().map(function(i){return i.plan}),content_type:'product',num_items:cart().length},id?{eventID:id}:undefined);
     setTimeout(function(){
-      if(!ADDON_ONLY){var qs=[];if(p.some(function(a){return a.k==='reviews'}))qs.push('add=reviews');if(TEST)qs.push('test=1');if(r&&r.paymentId)qs.push('pay='+encodeURIComponent(r.paymentId));location.href='/welcome.html'+(qs.length?'?'+qs.join('&'):'');return}
+      if(!ADDON_ONLY){var qs=[];if(p.length)qs.push('add='+p.map(function(a){return a.k}).join(','));if(TEST)qs.push('test=1');if(r&&r.paymentId)qs.push('pay='+encodeURIComponent(r.paymentId));location.href='/welcome.html'+(qs.length?'?'+qs.join('&'):'');return}
       unmount();wait.hidden=true;title.textContent="Added";
       mountEl.innerHTML='<div style="text-align:center;padding:16px 4px"><p style="font-size:16px;margin:0 0 6px"><b>'+p.map(function(a){return a.name}).join(', ')+'</b> '+(p.length>1?'are':'is')+' now part of your plan.</p>'+
         '<p style="color:#6f625e;margin:0 0 16px">'+(p.some(function(a){return a.k==='reviews'})?'Send us your Google reviews on the next page. ':'')+'They arrive with your next monthly reels.</p>'+
-        '<a class="msco-go" style="display:inline-block;width:auto;text-decoration:none;padding:12px 22px" href="'+(p.some(function(a){return a.k==='reviews'})?'/reviews.html':location.pathname)+'">'+(p.some(function(a){return a.k==='reviews'})?'Send reviews':'Done')+'</a></div>';},450)}
+        '<a class="msco-go" id="msco-done" style="display:inline-block;width:auto;text-decoration:none;padding:12px 22px" href="'+(p.some(function(a){return a.k==='reviews'})?'/reviews.html':'#')+'">'+(p.some(function(a){return a.k==='reviews'})?'Send reviews':'Done')+'</a></div>';
+      var dn=$('msco-done');if(dn&&dn.getAttribute('href')==='#')dn.addEventListener('click',function(e){e.preventDefault();close();
+        p.forEach(function(a){var el=document.querySelector('[data-msr-addon="'+a.k+'"]');if(el)el.remove()});
+        var b=document.getElementById('msr-more');if(b&&!b.querySelector('[data-msr-addon]'))b.remove()});},450)}
   function pay(){var t=totals();s1.hidden=true;s2.hidden=false;title.textContent='Checkout';unmount();wait.hidden=false;
     fb('track','InitiateCheckout',{value:t.today,currency:'USD',content_name:'MedSpa Reels',content_ids:cart().map(function(i){return i.plan}),num_items:cart().length});
     loadSdk(function(w){
@@ -102,4 +109,5 @@
     boxes.forEach(function(b){b.checked=(q.get('add')||'').split(',').indexOf(b.value)>=0});
     history.replaceState(null,'',location.pathname);
     if(ok){co.hidden=false;document.documentElement.classList.add('msco-open');s1.hidden=true;s2.hidden=false;done({paymentId:q.get('payment')||''})}}
+  else if(q.get('buy')&&!ADDON_ONLY){q.delete('buy');history.replaceState(null,'',location.pathname+(q.toString()?'?'+q:''));open([])}
 })();
