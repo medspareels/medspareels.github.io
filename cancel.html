@@ -58,11 +58,16 @@ var y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)},0)})})(window
   <div class="card">
     <div id="ask">
       <h2>Email on your plan</h2>
-      <p>We'll email you a secure link to manage it. No password needed.</p>
+      <p>We'll email you a 6-digit code. No password needed.</p>
       <form id="f" novalidate><div class="field"><label for="email">Email</label><input id="email" type="email" autocomplete="email" required></div>
-        <button class="btn" type="submit">Email me the link</button></form>
+        <button class="btn" type="submit">Email me a code</button></form>
     </div>
-    <div id="sent" class="done"><div class="tick">✓</div><h2>Check your inbox</h2><p>If that email has a MedSpa Reels plan, the link is on its way. It works for 24 hours.</p></div>
+    <div id="sent" style="display:none">
+      <h2>Check your inbox</h2><p>If that email has a MedSpa Reels plan, we've sent a 6-digit code. It works for 15 minutes.</p>
+      <form id="cf" novalidate><div class="field"><label for="code">Code</label><input id="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" required style="letter-spacing:6px;font-size:22px"></div>
+        <button class="btn" type="submit">Continue</button></form>
+      <p class="note"><a href="cancel.html">Use a different email</a></p>
+    </div>
     <div id="manage" style="display:none">
       <h2>Your plan</h2>
       <p class="note" id="who"></p>
@@ -72,13 +77,13 @@ var y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)},0)})})(window
       <button class="btn" id="go" type="button">Cancel selected at end of billing period</button>
       <p class="note">Cancelling stops the next renewal. You keep access and this month's reels until the date shown. Cancelling the main plan also cancels its add-ons.</p>
     </div>
-    <div id="bad" style="display:none"><h2>This link has expired</h2><p>Links work for 24 hours. <a href="cancel.html">Get a new one</a>.</p></div>
+    <div id="bad" style="display:none"><h2>Your session has expired</h2><p><a href="cancel.html">Start again</a>; it takes a minute.</p></div>
   </div>
   <div class="help"><div>Questions? Email <a href="mailto:hello@medspareels.com">hello@medspareels.com</a>.</div></div>
 </main>
 <footer class="wrap"><p>© 2026 MedSpa Reels · <a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a></p></footer>
 <script>
-var W='https://medspareels-lead.facelessvideokit.workers.dev',q=new URLSearchParams(location.search),A={e:q.get('e'),x:q.get('x'),t:q.get('t')};
+var W='https://medspareels-lead.facelessvideokit.workers.dev',A={},EM='';
 function $(i){return document.getElementById(i)}
 function post(p,d){return fetch(W+p,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)}).then(function(r){return r.json()})}
 function day(s){if(!s)return '';var d=new Date(s);return isNaN(d)?'':d.toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'})}
@@ -91,12 +96,15 @@ function show(ms){$('ask').style.display='none';$('manage').style.display='block
   [].forEach.call(document.querySelectorAll('[data-core="1"]'),function(c){c.addEventListener('change',function(){if(c.checked)[].forEach.call(document.querySelectorAll('.plan input'),function(x){x.checked=true})})});
   [].forEach.call(document.querySelectorAll('[data-undo]'),function(b){b.addEventListener('click',function(){b.disabled=true;
     post('/cancel/do',Object.assign({mode:'undo',ids:[b.getAttribute('data-undo')]},A)).then(function(j){if(!j.ok)throw 0;show(j.memberships)}).catch(function(){b.disabled=false;alert('Something went wrong. Please email hello@medspareels.com.')})})})}
-if(A.e&&A.x&&A.t){$('lead').textContent='Loading your plan…';
-  post('/cancel/list',A).then(function(j){if(!j.ok){$('ask').style.display='none';$('bad').style.display='block';return}$('lead').textContent='Change add-ons or cancel. You keep everything already delivered.';show(j.memberships)})
+function load(){$('lead').textContent='Loading your plan…';
+  post('/cancel/list',A).then(function(j){$('sent').style.display='none';if(!j.ok){$('bad').style.display='block';return}$('lead').textContent='Change add-ons or cancel. You keep everything already delivered.';show(j.memberships)})
     .catch(function(){$('lead').textContent='Something went wrong. Please refresh, or email hello@medspareels.com.'})}
+$('cf').addEventListener('submit',function(e){e.preventDefault();var b=e.target.querySelector('button');b.disabled=true;b.textContent='Checking…';
+  post('/cancel/verify',{email:EM,code:$('code').value}).then(function(j){b.disabled=false;b.textContent='Continue';if(!j.ok){alert('That code is wrong or has expired. Check the latest email, or start again.');return}
+    A={e:j.e,x:j.x,t:j.t};load()}).catch(function(){b.disabled=false;b.textContent='Continue';alert('Something went wrong. Please try again.')})});
 $('f').addEventListener('submit',function(e){e.preventDefault();var v=$('email').value.trim();if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)){alert('Please enter your email.');return}
   var b=e.target.querySelector('button');b.disabled=true;b.textContent='Sending…';
-  post('/cancel/start',{email:v}).then(function(){$('ask').style.display='none';$('sent').style.display='block'}).catch(function(){b.disabled=false;b.textContent='Email me the link';alert('Something went wrong. Please try again.')})});
+  EM=v;post('/cancel/start',{email:v}).then(function(){$('ask').style.display='none';$('sent').style.display='block';$('code').focus()}).catch(function(){b.disabled=false;b.textContent='Email me a code';alert('Something went wrong. Please try again.')})});
 $('go').addEventListener('click',function(){var ids=[].map.call(document.querySelectorAll('.plan input:checked'),function(c){return c.value});
   if(!ids.length){alert('Tick what you want to cancel.');return}
   if(!confirm('Cancel at the end of your billing period? You keep access until then.'))return;
