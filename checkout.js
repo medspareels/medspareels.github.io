@@ -11,9 +11,9 @@
 (function(){
   var CORE='plan_9EmYqBPJpd9gK', PROMO='FIRSTMONTH79', FIRST=79, MONTHLY=149;
   var ADDONS=[ /* plan ids from pipeline/addons.json */
-    {k:'ads',plan:'plan_jRnpX8EaTBfwq',name:'Ad-ready cuts',price:49,line:'3 reels a month re-cut for Meta ads, with ad copy'},
-    {k:'reviews',plan:'plan_X9i1lK3vRJBk2',name:'Review reels',price:39,line:'Up to 4 reels a month from your Google reviews'},
-    {k:'stories',plan:'plan_Etp3F4AOFRtqd',name:'Matching Stories',price:29,line:'A Story image for every reel'}];
+    {k:'ads',why:'Run Meta ads without hiring an editor or writing copy.',plan:'plan_jRnpX8EaTBfwq',name:'Ad-ready cuts',price:49,line:'3 reels a month re-cut for Meta ads, with ad copy'},
+    {k:'reviews',why:'Your happiest clients already wrote your best marketing. Put it on Instagram.',plan:'plan_X9i1lK3vRJBk2',name:'Review reels',price:39,line:'Up to 4 reels a month from your Google reviews'},
+    {k:'stories',why:'Show up in your followers\u2019 Stories every time you post, with no extra work.',plan:'plan_Etp3F4AOFRtqd',name:'Matching Stories',price:29,line:'A Story image for every reel'}];
   /* ?test=<code> on the page: owner's end-to-end test with a 100%-off Whop code. No pixel events, welcome page marked test. */
   var TEST=new URLSearchParams(location.search).get('test')||'';
   var me=document.currentScript, ADDON_ONLY=!!(me&&me.getAttribute('data-msr-mode')==='addons');
@@ -30,14 +30,14 @@
     '.msco-add{display:flex;gap:12px;align-items:flex-start;border:1px solid #ead9cf;border-radius:14px;padding:12px 14px;cursor:pointer;transition:border-color .15s,background .15s}'+
     '.msco-add:has(input:checked){border-color:#a8675f;background:#fdf8f5}.msco-add input{margin-top:3px;width:18px;height:18px;accent-color:#a8675f;flex:none}'+
     '.msco-add span{display:grid;gap:2px;font-size:14px}.msco-add small{color:#6f625e;font-size:13px}.msco-add em{font-style:normal;color:#a8675f;font-weight:600;margin-left:auto;white-space:nowrap;font-size:14px}'+
-    '.msco-bar{position:sticky;bottom:-20px;margin:0 -20px -20px;padding:0 20px 20px;background:#fff;display:grid;gap:12px;box-shadow:0 -14px 18px -12px rgba(0,0,0,.12);z-index:1}.msco-tot{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid #ead9cf;padding-top:12px;font-size:14px}.msco-tot b{font-size:20px}.msco-tot small{display:block;color:#6f625e;font-size:12px;text-align:right}'+
+    '.msco-bar{position:sticky;bottom:-20px;margin:0 -20px -20px;padding:0 20px 20px;background:#fff;display:grid;gap:12px;box-shadow:0 -14px 18px -12px rgba(0,0,0,.12);z-index:1}.msco-why{display:block;font-style:normal;font-size:14px;line-height:1.4;color:#2c2220;margin:2px 0}.msco-tot{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid #ead9cf;padding-top:12px;font-size:14px}.msco-tot b{font-size:20px}.msco-tot small{display:block;color:#6f625e;font-size:12px;text-align:right}'+
     '.msco-go{background:#2c2220;color:#fff;border:0;border-radius:999px;padding:15px 18px;font:600 16px Inter,system-ui,sans-serif;cursor:pointer;width:100%}.msco-go:disabled{opacity:.45;cursor:default}'+
     '.msco-back{background:none;border:0;color:#a8675f;font:500 14px Inter,system-ui,sans-serif;cursor:pointer;justify-self:start;padding:0}'+
     '.msco-wait{color:#6f625e;font-size:14px;text-align:center;padding:40px 0}.msco-wait[hidden],.msco-step[hidden]{display:none}#msco-mount{min-height:380px}'+
     '.msco-foot{font-size:12px;color:#6f625e;text-align:center;margin:0}html.msco-open,html.msco-open body{overflow:hidden}'+
     '.msco-step{display:grid;gap:12px}';
   var st=document.createElement('style');st.textContent=css;document.head.appendChild(st);
-  var adds=ADDONS.map(function(a){return '<label class="msco-add"><input type="checkbox" value="'+a.k+'"><span><b>'+a.name+'</b><small>'+a.line+'</small></span><em>+$'+a.price+'/mo</em></label>'}).join('');
+  var adds=ADDONS.map(function(a){return '<label class="msco-add"><input type="checkbox" value="'+a.k+'"><span><b>'+a.name+'</b>'+(a.why?'<i class="msco-why">'+a.why+'</i>':'')+'<small>'+a.line+'</small></span><em>+$'+a.price+'/mo</em></label>'}).join('');
   var co=document.createElement('div');co.className='msco';co.hidden=true;co.setAttribute('role','dialog');co.setAttribute('aria-modal','true');co.setAttribute('aria-label','Checkout');
   co.innerHTML='<div class="msco-box"><div class="msco-top"><b id="msco-t">Your plan</b><button class="msco-x" type="button" aria-label="Close checkout">×</button></div>'+
     '<div class="msco-step" id="msco-s1">'+
