@@ -30,7 +30,7 @@
     '.msco-add{display:flex;gap:12px;align-items:flex-start;border:1px solid #ead9cf;border-radius:14px;padding:12px 14px;cursor:pointer;transition:border-color .15s,background .15s}'+
     '.msco-add:has(input:checked){border-color:#a8675f;background:#fdf8f5}.msco-add input{margin-top:3px;width:18px;height:18px;accent-color:#a8675f;flex:none}'+
     '.msco-add span{display:grid;gap:2px;font-size:14px}.msco-add small{color:#6f625e;font-size:13px}.msco-add em{font-style:normal;color:#a8675f;font-weight:600;margin-left:auto;white-space:nowrap;font-size:14px}'+
-    '.msco-tot{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid #ead9cf;padding-top:12px;font-size:14px}.msco-tot b{font-size:20px}.msco-tot small{display:block;color:#6f625e;font-size:12px;text-align:right}'+
+    '.msco-bar{position:sticky;bottom:-20px;margin:0 -20px -20px;padding:0 20px 20px;background:#fff;display:grid;gap:12px;box-shadow:0 -14px 18px -12px rgba(0,0,0,.12);z-index:1}.msco-tot{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid #ead9cf;padding-top:12px;font-size:14px}.msco-tot b{font-size:20px}.msco-tot small{display:block;color:#6f625e;font-size:12px;text-align:right}'+
     '.msco-go{background:#2c2220;color:#fff;border:0;border-radius:999px;padding:15px 18px;font:600 16px Inter,system-ui,sans-serif;cursor:pointer;width:100%}.msco-go:disabled{opacity:.45;cursor:default}'+
     '.msco-back{background:none;border:0;color:#a8675f;font:500 14px Inter,system-ui,sans-serif;cursor:pointer;justify-self:start;padding:0}'+
     '.msco-wait{color:#6f625e;font-size:14px;text-align:center;padding:40px 0}.msco-wait[hidden],.msco-step[hidden]{display:none}#msco-mount{min-height:380px}'+
@@ -43,9 +43,9 @@
     '<div class="msco-step" id="msco-s1">'+
       (ADDON_ONLY?'':'<div class="msco-plan"><h4>MedSpa Reels: 12 finished reels a month</h4><p>$'+FIRST+' your first month, then $'+MONTHLY+'/month. Cancel anytime.</p></div>')+
       '<p class="msco-h">'+(ADDON_ONLY?'Add to your plan':'Add more, if you want it')+'</p>'+adds+
-      '<div class="msco-tot"><span>Today</span><span><b id="msco-today"></b><small id="msco-then"></small></span></div>'+
+      '<div class="msco-bar"><div class="msco-tot"><span>Today</span><span><b id="msco-today"></b><small id="msco-then"></small></span></div>'+
       '<button class="msco-go" id="msco-go" type="button">Continue to payment</button>'+
-      '<p class="msco-foot">Secure checkout by Whop · Add-ons arrive with your monthly reels</p></div>'+
+      '<p class="msco-foot">Secure checkout by Whop · Add-ons arrive with your monthly reels</p></div></div>'+
     '<div class="msco-step" id="msco-s2" hidden><button class="msco-back" id="msco-back" type="button">← Change add-ons</button>'+
       '<p class="msco-wait" id="msco-wait">Loading secure checkout…</p><div id="msco-mount"></div>'+
       '<p class="msco-foot">Secure checkout by Whop · Cancel anytime</p></div></div>';
