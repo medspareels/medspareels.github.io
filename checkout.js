@@ -9,7 +9,9 @@
    If Elements fails to load or draw within 12 s, the buyer goes to Whop's hosted checkout for the core
    plan (nothing is lost). Purchase fires in the browser with eventID = the Whop payment id. */
 (function(){
-  var CORE='plan_9EmYqBPJpd9gK', PROMO='FIRSTMONTH79', FIRST=79, MONTHLY=149;
+  /* 18 Nov 2026: outreach prospects (sample page / DM / cold email links carry utm_source=dm) get $19 the first month */
+  var OUTREACH=/[?&]utm_source=dm(&|$)/.test(location.search);
+  var CORE='plan_9EmYqBPJpd9gK', PROMO=OUTREACH?'FIRSTMONTH19':'FIRSTMONTH79', FIRST=OUTREACH?19:79, MONTHLY=149;
   var ADDONS=[ /* plan ids from pipeline/addons.json */
     {k:'ads',why:'Run Meta ads without hiring an editor or writing copy.',plan:'plan_jRnpX8EaTBfwq',name:'Ad-ready cuts',price:49,line:'3 reels a month re-cut for Meta ads, with ad copy'},
     {k:'reviews',why:'Your happiest clients already wrote your best marketing. Put it on Instagram.',plan:'plan_X9i1lK3vRJBk2',name:'Review reels',price:39,line:'Up to 4 reels a month from your Google reviews'},
