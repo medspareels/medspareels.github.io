@@ -112,10 +112,10 @@ var f=document.getElementById('f'),q=new URLSearchParams(location.search);
 if(q.get('email'))f.email.value=q.get('email');
 /* after the on-site checkout: fill in the email the buyer used at checkout, so Whop and our records match */
 var payId=q.get('pay')||q.get('payment_id');   /* ours (popup onComplete) or Whop's own redirect */
-if(payId)fetch('https://medspareels-lead.facelessvideokit.workers.dev/buyer?p='+encodeURIComponent(payId)).then(function(r){return r.json()}).then(function(j){if(j.ok&&j.email&&!f.email.value)f.email.value=j.email}).catch(function(){});
+if(payId)fetch('https://medspareels-lead.facelessvideokit.workers.dev/buyer?p='+encodeURIComponent(payId)+(q.get('k')?'&k='+encodeURIComponent(q.get('k')):'')).then(function(r){return r.json()}).then(function(j){if(!j.ok)return;if(j.email&&!f.email.value)f.email.value=j.email;if(j.clinic&&!f.clinic.value)f.clinic.value=j.clinic;if(j.instagram&&!f.instagram.value)f.instagram.value=j.instagram}).catch(function(){});
 f.addEventListener('submit',function(e){
   e.preventDefault();
-  var d={};['company','email','clinic','instagram','director','treatments'].forEach(function(k){d[k]=f[k].value;});
+  var d={};['company','email','clinic','instagram','director','treatments'].forEach(function(k){d[k]=f[k].value;});if(q.get('k'))d.k=q.get('k');
   d.colors=f.color1.value+', '+f.color2.value;
   if(q.get('test')==='1'){d.test=true;window.fbq=function(){};}   /* owner's end-to-end test: no Meta events */
   if(!d.clinic.trim()||!d.director.trim()||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email.trim())){alert('Please add your email, clinic name and medical director.');return;}

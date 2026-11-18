@@ -11,6 +11,7 @@
 (function(){
   /* 18 Nov 2026: outreach prospects (sample page / DM / cold email links carry utm_source=dm) get $19 the first month */
   var OUTREACH=/[?&]utm_source=dm(&|$)/.test(location.search);
+  var PKEY=(location.search.match(/[?&]utm_content=([A-Za-z0-9]{8,20})(&|$)/)||[])[1]||'';   /* the sample page they came from */
   var CORE='plan_9EmYqBPJpd9gK', PROMO=OUTREACH?'FIRSTMONTH19':'FIRSTMONTH79', FIRST=OUTREACH?19:79, MONTHLY=149;
   var ADDONS=[ /* plan ids from pipeline/addons.json */
     {k:'ads',why:'Run Meta ads without hiring an editor or writing copy.',plan:'plan_jRnpX8EaTBfwq',name:'Ad-ready cuts',price:49,line:'3 reels a month re-cut for Meta ads, with ad copy'},
@@ -81,7 +82,7 @@
     fb('track','Purchase',{value:t.today,currency:'USD',content_name:'MedSpa Reels'+(p.length?' + '+p.map(function(a){return a.name}).join(' + '):''),
       content_ids:cart().map(function(i){return i.plan}),content_type:'product',num_items:cart().length},id?{eventID:id}:undefined);
     setTimeout(function(){
-      if(!ADDON_ONLY){var qs=[];if(p.length)qs.push('add='+p.map(function(a){return a.k}).join(','));if(TEST)qs.push('test=1');if(r&&r.paymentId)qs.push('pay='+encodeURIComponent(r.paymentId));location.href='/welcome.html'+(qs.length?'?'+qs.join('&'):'');return}
+      if(!ADDON_ONLY){var qs=[];if(p.length)qs.push('add='+p.map(function(a){return a.k}).join(','));if(TEST)qs.push('test=1');if(r&&r.paymentId)qs.push('pay='+encodeURIComponent(r.paymentId));if(PKEY)qs.push('k='+PKEY);location.href='/welcome.html'+(qs.length?'?'+qs.join('&'):'');return}
       if(!TEST)try{localStorage.setItem('msr_owned',JSON.stringify(OWNED.concat(p.map(function(a){return a.k}))))}catch(e){}
       unmount();wait.hidden=true;title.textContent="Added";
       mountEl.innerHTML='<div style="text-align:center;padding:16px 4px"><p style="font-size:16px;margin:0 0 6px"><b>'+p.map(function(a){return a.name}).join(', ')+'</b> '+(p.length>1?'are':'is')+' now part of your plan.</p>'+
